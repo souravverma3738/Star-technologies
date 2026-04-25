@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap");
+
+:root {
+  --st-navy: #0a1d4a;
+  --st-navy-2: #061235;
+  --st-blue: #1e6bff;
+  --st-blue-2: #4ea2ff;
+  --st-ink: #0b1220;
+  --st-paper: #f4f6fb;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Sora", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--st-paper);
+  color: var(--st-ink);
+  letter-spacing: -0.005em;
+}
+
+::selection {
+  background: var(--st-blue);
+  color: #ffffff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(10,29,74,.18); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(10,29,74,.32); }
+
+/* Grain texture overlay used on dark sections */
+.st-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/></svg>");
+}
+
+.st-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: .55;
+  pointer-events: none;
+}
+
+.st-shine {
+  background: linear-gradient(135deg, #0a1d4a 0%, #103a91 35%, #1e6bff 70%, #4ea2ff 100%);
+}
+
+.st-card-glass {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.st-card-light {
+  background: #ffffff;
+  border: 1px solid #e6eaf2;
+  box-shadow: 0 1px 0 rgba(10,29,74,.04), 0 18px 40px -22px rgba(10,29,74,.18);
+}
+
+.st-link-underline {
+  position: relative;
+}
+.st-link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -3px;
+  width: 0%; height: 2px;
+  background: var(--st-blue);
+  transition: width .3s ease;
+}
+.st-link-underline:hover::after { width: 100%; }
+
+/* Marquee for industries */
+@keyframes st-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.st-marquee-track {
+  animation: st-marquee 32s linear infinite;
+}
+
+/* Reveal */
+.st-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.st-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 224 76% 17%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 22% 95%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 220 22% 95%;
+    --muted-foreground: 215 16% 40%;
+    --accent: 220 22% 95%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 22% 90%;
+    --input: 220 22% 90%;
+    --ring: 222 47% 11%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
