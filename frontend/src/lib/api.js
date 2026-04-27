@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 export const api = axios.create({
   baseURL: API_BASE,
   headers: { "Content-Type": "application/json" },
