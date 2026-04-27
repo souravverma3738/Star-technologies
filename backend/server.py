@@ -25,7 +25,7 @@ from pydantic import BaseModel, EmailStr, Field
 # ---------------------------------------------------------------------------
 MONGO_URL = os.environ["MONGO_URL"]
 DB_NAME = os.environ["DB_NAME"]
-JWT_SECRET = os.environ["JWT_SECRET"]
+JWT_SECRET = os.environ["SECRET_KEY"]
 JWT_ALGORITHM = "HS256"
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@startechnologies.com")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme")
