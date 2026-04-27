@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 from pathlib import Path
 
+from starlette.staticfiles import StaticFiles
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
 
@@ -369,6 +371,33 @@ async def on_startup():
             )
             logger.info("Updated admin password for %s", ADMIN_EMAIL)
 
+
+# ==================== REGISTER ROUTER (before catch-all!) ====================
+app.include_router(api_router)
+
+# ==================== STATIC FILE SERVING (React frontend) ====================
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_BUILD_DIR = BASE_DIR.parent / "frontend" / "build"
+
+if FRONTEND_BUILD_DIR.exists():
+    app.mount("/static", StaticFiles(directory=FRONTEND_BUILD_DIR / "static"), name="static")
+
+
+    @app.get("/")
+    async def serve_root():
+        from fastapi.responses import FileResponse
+        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
+
+
+    @app.get("/{full_path:path}")
+    async def serve_react_app(full_path: str):
+        from fastapi.responses import FileResponse
+        if full_path.startswith("api"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        requested_file = FRONTEND_BUILD_DIR / full_path
+        if requested_file.exists() and requested_file.is_file():
+            return FileResponse(requested_file)
+        return FileResponse(FRONTEND_BUILD_DIR / "index.html")
 
 @app.on_event("shutdown")
 async def on_shutdown():
